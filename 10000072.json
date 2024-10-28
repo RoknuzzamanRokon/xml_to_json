@@ -1,0 +1,632 @@
+{
+    "hotel_id": "10000072",
+    "name": "Millbrae Lodges",
+    "name_local": "Millbrae Lodges",
+    "hotel_formerly_name": "Millbrae Lodges",
+    "brand_text": "NULL",
+    "property_type": "Guesthouse/bed and breakfast",
+    "star_rating": "3.0",
+    "chain": "NULL",
+    "brand": "NULL",
+    "logo": "NULL",
+    "primary_photo": "NULL",
+    "review_rating": {
+        "source": "NULL",
+        "number_of_reviews": "6",
+        "rating_average": "9.3",
+        "popularity_score": "1450366"
+    },
+    "policies": {
+        "checkin": {
+            "begin_time": "NULL",
+            "end_time": "NULL",
+            "instructions": "NULL",
+            "min_age": "NULL"
+        },
+        "checkout": {
+            "time": "NULL"
+        },
+        "fees": {
+            "optional": "NULL"
+        },
+        "know_before_you_go": "NULL",
+        "pets": [
+            "Pets not allowed"
+        ],
+        "remark": "NULL",
+        "child_and_extra_bed_policy": {
+            "infant_age": "0",
+            "children_age_from": "0",
+            "children_age_to": "12",
+            "children_stay_free": "true",
+            "min_guest_age": "0"
+        },
+        "nationality_restrictions": null
+    },
+    "address": {
+        "latitude": "54.597984313964844",
+        "longitude": "-6.148733139038086",
+        "address_line_1": "3 Tullyrusk road Dundrod Crumlin",
+        "address_line_2": null,
+        "city": "Belfast",
+        "state": "Northern Ireland",
+        "country": "United Kingdom",
+        "country_code": "NULL",
+        "postal_code": "BT29 4JA",
+        "full_address": "NULL",
+        "google_map_site_link": "NULL",
+        "local_lang": {
+            "latitude": "54.597984313964844",
+            "longitude": "-6.148733139038086",
+            "address_line_1": "3 Tullyrusk road Dundrod Crumlin",
+            "address_line_2": null,
+            "city": "Belfast",
+            "state": "Northern Ireland",
+            "country": "United Kingdom",
+            "country_code": "NULL",
+            "postal_code": "BT29 4JA",
+            "full_address": "NULL",
+            "google_map_site_link": "NULL"
+        },
+        "mapping": {
+            "continent_id": "NULL",
+            "country_id": "NULL",
+            "province_id": "NULL",
+            "state_id": "NULL",
+            "city_id": "NULL",
+            "area_id": "NULL"
+        }
+    },
+    "contacts": {
+        "phone_numbers": [],
+        "fax": "NULL",
+        "email_address": "NULL",
+        "website": "NULL"
+    },
+    "descriptions": [
+        {
+            "title": "NULL",
+            "text": "NULL"
+        }
+    ],
+    "room_type": [
+        {
+            "room_id": "124774631",
+            "title": "Deluxe King Suite",
+            "title_lang": "Deluxe King Suite",
+            "room_pic": "https://q-xx.bstatic.com/xdata/images/hotel/max500/513284917.jpg?k=9b949a4d77a22e8219b5bc9a4a7e77d48d9185db632572801649896422a7e0f4&o=&s=312x",
+            "description": "NULL",
+            "max_allowed": {
+                "total": 2,
+                "adults": 2,
+                "children": "NULL",
+                "infant": "0"
+            },
+            "no_of_room": "0",
+            "room_size": "24",
+            "bed_type": [
+                {
+                    "description": null,
+                    "configuration": [],
+                    "max_extrabeds": "0"
+                }
+            ],
+            "shared_bathroom": "False"
+        },
+        {
+            "room_id": "124774633",
+            "title": "Double Room with Private Bathroom",
+            "title_lang": "Double Room with Private Bathroom",
+            "room_pic": "https://q-xx.bstatic.com/xdata/images/hotel/max500/221230048.jpg?k=2065b569856b6c6e17089caf37d49a25d420a19cc1d46d703b59fec32b857837&o=&s=312x",
+            "description": "NULL",
+            "max_allowed": {
+                "total": 2,
+                "adults": 2,
+                "children": "NULL",
+                "infant": "0"
+            },
+            "no_of_room": "0",
+            "room_size": "16.5",
+            "bed_type": [
+                {
+                    "description": null,
+                    "configuration": [],
+                    "max_extrabeds": "0"
+                }
+            ],
+            "shared_bathroom": "False"
+        },
+        {
+            "room_id": "124774635",
+            "title": "Double Room with Private Bathroom",
+            "title_lang": "Double Room with Private Bathroom",
+            "room_pic": "https://q-xx.bstatic.com/xdata/images/hotel/max500/221229531.jpg?k=47221bceb6e8cdcd66b29d00d64790587bcbb632960ed0cd63942f5d6ade6978&o=&s=312x",
+            "description": "NULL",
+            "max_allowed": {
+                "total": 2,
+                "adults": 2,
+                "children": "NULL",
+                "infant": "0"
+            },
+            "no_of_room": "0",
+            "room_size": "16.5",
+            "bed_type": [
+                {
+                    "description": null,
+                    "configuration": [],
+                    "max_extrabeds": "0"
+                }
+            ],
+            "shared_bathroom": "False"
+        },
+        {
+            "room_id": "817625254",
+            "title": "Self Cateriny",
+            "title_lang": "Self Cateriny",
+            "room_pic": "https://q-xx.bstatic.com/xdata/images/hotel/max500/543861096.jpg?k=467b444a418863b89cd12afe7774260d825bb863f7b875bba653f8afea4ae75c&o=&s=312x",
+            "description": "NULL",
+            "max_allowed": {
+                "total": 2,
+                "adults": 2,
+                "children": "NULL",
+                "infant": "0"
+            },
+            "no_of_room": "0",
+            "room_size": "72",
+            "bed_type": [
+                {
+                    "description": null,
+                    "configuration": [],
+                    "max_extrabeds": "0"
+                }
+            ],
+            "shared_bathroom": "False"
+        }
+    ],
+    "spoken_languages": [],
+    "amenities": [],
+    "facilities": [
+        {
+            "type": "English",
+            "title": "Languages spoken",
+            "icon": "English"
+        },
+        {
+            "type": "Free Wi-Fi in all rooms!",
+            "title": "Internet access",
+            "icon": "Free Wi-Fi in all rooms!"
+        },
+        {
+            "type": "Internet",
+            "title": "Internet access",
+            "icon": "Internet"
+        },
+        {
+            "type": "Internet services",
+            "title": "Internet access",
+            "icon": "Internet services"
+        },
+        {
+            "type": "Wi-Fi in public areas",
+            "title": "Internet access",
+            "icon": "Wi-Fi in public areas"
+        },
+        {
+            "type": "Contactless check-in/out",
+            "title": "Services and conveniences",
+            "icon": "Contactless check-in/out"
+        },
+        {
+            "type": "Heating in public area",
+            "title": "Services and conveniences",
+            "icon": "Heating in public area"
+        },
+        {
+            "type": "Luggage storage",
+            "title": "Services and conveniences",
+            "icon": "Luggage storage"
+        },
+        {
+            "type": "Smoke-free property",
+            "title": "Services and conveniences",
+            "icon": "Smoke-free property"
+        },
+        {
+            "type": "Smoking area",
+            "title": "Services and conveniences",
+            "icon": "Smoking area"
+        },
+        {
+            "type": "Anti-viral cleaning products",
+            "title": "Cleanliness and safety",
+            "icon": "Anti-viral cleaning products"
+        },
+        {
+            "type": "Breakfast in room",
+            "title": "Cleanliness and safety",
+            "icon": "Breakfast in room"
+        },
+        {
+            "type": "Cashless payment service",
+            "title": "Cleanliness and safety",
+            "icon": "Cashless payment service"
+        },
+        {
+            "type": "First aid kit",
+            "title": "Cleanliness and safety",
+            "icon": "First aid kit"
+        },
+        {
+            "type": "Hand sanitizer",
+            "title": "Cleanliness and safety",
+            "icon": "Hand sanitizer"
+        },
+        {
+            "type": "Hot water linen and laundry washing",
+            "title": "Cleanliness and safety",
+            "icon": "Hot water linen and laundry washing"
+        },
+        {
+            "type": "Individually-wrapped food options",
+            "title": "Cleanliness and safety",
+            "icon": "Individually-wrapped food options"
+        },
+        {
+            "type": "Physical distancing of at least 1 meter",
+            "title": "Cleanliness and safety",
+            "icon": "Physical distancing of at least 1 meter"
+        },
+        {
+            "type": "Room sanitization opt-out available",
+            "title": "Cleanliness and safety",
+            "icon": "Room sanitization opt-out available"
+        },
+        {
+            "type": "Rooms sanitized between stays",
+            "title": "Cleanliness and safety",
+            "icon": "Rooms sanitized between stays"
+        },
+        {
+            "type": "Safe dining setup",
+            "title": "Cleanliness and safety",
+            "icon": "Safe dining setup"
+        },
+        {
+            "type": "Sanitized kitchen and tableware items",
+            "title": "Cleanliness and safety",
+            "icon": "Sanitized kitchen and tableware items"
+        },
+        {
+            "type": "Shared stationery removed",
+            "title": "Cleanliness and safety",
+            "icon": "Shared stationery removed"
+        },
+        {
+            "type": "Staff trained in safety protocol",
+            "title": "Cleanliness and safety",
+            "icon": "Staff trained in safety protocol"
+        },
+        {
+            "type": "Temperature check for guests and staff",
+            "title": "Cleanliness and safety",
+            "icon": "Temperature check for guests and staff"
+        },
+        {
+            "type": "CCTV outside property",
+            "title": "Access",
+            "icon": "CCTV outside property"
+        },
+        {
+            "type": "Check-in/out [express]",
+            "title": "Access",
+            "icon": "Check-in/out [express]"
+        },
+        {
+            "type": "Front desk [24-hour]",
+            "title": "Access",
+            "icon": "Front desk [24-hour]"
+        },
+        {
+            "type": "Non-smoking rooms",
+            "title": "Access",
+            "icon": "Non-smoking rooms"
+        },
+        {
+            "type": "Smoke alarms",
+            "title": "Access",
+            "icon": "Smoke alarms"
+        },
+        {
+            "type": "Soundproof rooms",
+            "title": "Access",
+            "icon": "Soundproof rooms"
+        },
+        {
+            "type": "Car park [free of charge]",
+            "title": "Getting around",
+            "icon": "Car park [free of charge]"
+        },
+        {
+            "type": "Additional toilet",
+            "title": "Available in all rooms",
+            "icon": "Additional toilet"
+        },
+        {
+            "type": "Baby cot (upon request)",
+            "title": "Available in all rooms",
+            "icon": "Baby cot (upon request)"
+        },
+        {
+            "type": "Closet",
+            "title": "Available in all rooms",
+            "icon": "Closet"
+        },
+        {
+            "type": "Clothes rack",
+            "title": "Available in all rooms",
+            "icon": "Clothes rack"
+        },
+        {
+            "type": "Desk",
+            "title": "Available in all rooms",
+            "icon": "Desk"
+        },
+        {
+            "type": "Dining table",
+            "title": "Available in all rooms",
+            "icon": "Dining table"
+        },
+        {
+            "type": "Dressing room",
+            "title": "Available in all rooms",
+            "icon": "Dressing room"
+        },
+        {
+            "type": "Electric kettle",
+            "title": "Available in all rooms",
+            "icon": "Electric kettle"
+        },
+        {
+            "type": "Fire extinguisher",
+            "title": "Available in all rooms",
+            "icon": "Fire extinguisher"
+        },
+        {
+            "type": "Free bottled water",
+            "title": "Available in all rooms",
+            "icon": "Free bottled water"
+        },
+        {
+            "type": "Ground floor available",
+            "title": "Available in all rooms",
+            "icon": "Ground floor available"
+        },
+        {
+            "type": "Hair dryer",
+            "title": "Available in all rooms",
+            "icon": "Hair dryer"
+        },
+        {
+            "type": "Hand sanitizer",
+            "title": "Available in all rooms",
+            "icon": "Hand sanitizer"
+        },
+        {
+            "type": "Heating",
+            "title": "Available in all rooms",
+            "icon": "Heating"
+        },
+        {
+            "type": "High chair",
+            "title": "Available in all rooms",
+            "icon": "High chair"
+        },
+        {
+            "type": "Ironing facilities",
+            "title": "Available in all rooms",
+            "icon": "Ironing facilities"
+        },
+        {
+            "type": "Linens",
+            "title": "Available in all rooms",
+            "icon": "Linens"
+        },
+        {
+            "type": "Outdoor furniture",
+            "title": "Available in all rooms",
+            "icon": "Outdoor furniture"
+        },
+        {
+            "type": "Private bathroom",
+            "title": "Available in all rooms",
+            "icon": "Private bathroom"
+        },
+        {
+            "type": "Private entrance",
+            "title": "Available in all rooms",
+            "icon": "Private entrance"
+        },
+        {
+            "type": "Refrigerator",
+            "title": "Available in all rooms",
+            "icon": "Refrigerator"
+        },
+        {
+            "type": "Seating area",
+            "title": "Available in all rooms",
+            "icon": "Seating area"
+        },
+        {
+            "type": "Separate dining area",
+            "title": "Available in all rooms",
+            "icon": "Separate dining area"
+        },
+        {
+            "type": "Shower",
+            "title": "Available in all rooms",
+            "icon": "Shower"
+        },
+        {
+            "type": "Smoke detector",
+            "title": "Available in all rooms",
+            "icon": "Smoke detector"
+        },
+        {
+            "type": "Socket near the bed",
+            "title": "Available in all rooms",
+            "icon": "Socket near the bed"
+        },
+        {
+            "type": "Soundproofing",
+            "title": "Available in all rooms",
+            "icon": "Soundproofing"
+        },
+        {
+            "type": "Tile/marble flooring",
+            "title": "Available in all rooms",
+            "icon": "Tile/marble flooring"
+        },
+        {
+            "type": "Toiletries",
+            "title": "Available in all rooms",
+            "icon": "Toiletries"
+        },
+        {
+            "type": "Towels",
+            "title": "Available in all rooms",
+            "icon": "Towels"
+        },
+        {
+            "type": "TV [flat screen]",
+            "title": "Available in all rooms",
+            "icon": "TV [flat screen]"
+        },
+        {
+            "type": "Walk-in shower",
+            "title": "Available in all rooms",
+            "icon": "Walk-in shower"
+        },
+        {
+            "type": "Wine glasses",
+            "title": "Available in all rooms",
+            "icon": "Wine glasses"
+        }
+    ],
+    "hotel_photo": [
+        {
+            "picture_id": "147443848",
+            "title": null,
+            "url": "https://q-xx.bstatic.com/xdata/images/hotel/max500/221230061.jpg?k=1bc857efac480c5ee5d6d8af8b03267d690651b34ec4e5e0df4b2c485cc72172&o=&s=312x"
+        },
+        {
+            "picture_id": "147443822",
+            "title": null,
+            "url": "https://q-xx.bstatic.com/xdata/images/hotel/max500/221230054.jpg?k=211ee01c3dd9219450693f171658495e15b4f68ab253ea0affe600e009936ccd&o=&s=312x"
+        },
+        {
+            "picture_id": "147443837",
+            "title": "Facilities",
+            "url": "https://q-xx.bstatic.com/xdata/images/hotel/max500/221230048.jpg?k=2065b569856b6c6e17089caf37d49a25d420a19cc1d46d703b59fec32b857837&o=&s=312x"
+        },
+        {
+            "picture_id": "313558820",
+            "title": null,
+            "url": "https://q-xx.bstatic.com/xdata/images/hotel/max500/268464458.jpg?k=ec9f733e38e400aef3a15cb3946befbb014eaa1561a6122483a2626f4ae438a6&o=&s=312x"
+        },
+        {
+            "picture_id": "147443815",
+            "title": "Food and beverages",
+            "url": "https://q-xx.bstatic.com/xdata/images/hotel/max500/221230045.jpg?k=754108c83716e9f0546311cada3b20464a00fcf26ba0b0254c26e7c336e3b470&o=&s=312x"
+        },
+        {
+            "picture_id": "147443821",
+            "title": "Facilities",
+            "url": "https://q-xx.bstatic.com/xdata/images/hotel/max500/221230059.jpg?k=4790dd6d123ca3f5eb4b14d36bab993b09eddb25977b003b97cc3066138983ce&o=&s=312x"
+        },
+        {
+            "picture_id": "220779766",
+            "title": "Entrance",
+            "url": "https://q-xx.bstatic.com/xdata/images/hotel/max500/221147025.jpg?k=bcfec31d9aff78dfdb74761ce5988c0b6a80cee91f4b99c2ce7663749d6994fb&o=&s=312x"
+        },
+        {
+            "picture_id": "147443831",
+            "title": "Balcony/terrace",
+            "url": "https://q-xx.bstatic.com/xdata/images/hotel/max500/221230057.jpg?k=8fd096256c19f9c60677dd93ef6acc636dede8bb5dd016b36e6b5adcfbca1952&o=&s=312x"
+        },
+        {
+            "picture_id": "500805003",
+            "title": null,
+            "url": "https://q-xx.bstatic.com/xdata/images/hotel/max500/513284917.jpg?k=9b949a4d77a22e8219b5bc9a4a7e77d48d9185db632572801649896422a7e0f4&o=&s=312x"
+        },
+        {
+            "picture_id": "147443827",
+            "title": null,
+            "url": "https://q-xx.bstatic.com/xdata/images/hotel/max500/221230056.jpg?k=302884d30072a610299d684fcbd426826d0f489c32fc969ca23e60db0422f6fb&o=&s=312x"
+        },
+        {
+            "picture_id": "499849531",
+            "title": null,
+            "url": "https://q-xx.bstatic.com/xdata/images/hotel/max500/513284948.jpg?k=76f07a18b649a2bb628e79b2c05b835f47d8cf2e2d4b4f7dece962e493bf8824&o=&s=312x"
+        },
+        {
+            "picture_id": "571387710",
+            "title": null,
+            "url": "https://q-xx.bstatic.com/xdata/images/hotel/max500/543861096.jpg?k=467b444a418863b89cd12afe7774260d825bb863f7b875bba653f8afea4ae75c&o=&s=312x"
+        },
+        {
+            "picture_id": "147443845",
+            "title": "Facilities",
+            "url": "https://q-xx.bstatic.com/xdata/images/hotel/max500/221230046.jpg?k=5ac086203e9ce10573216b4990b210cc9fdec758a8bc6aa53544be552dff5bbf&o=&s=312x"
+        },
+        {
+            "picture_id": "147443817",
+            "title": "Garden",
+            "url": "https://q-xx.bstatic.com/xdata/images/hotel/max500/221232801.jpg?k=b81630e407efc9b68e2c534e5b706e5bda5d47c40f8da51d5ad4c8791ad40121&o=&s=312x"
+        },
+        {
+            "picture_id": "538212539",
+            "title": null,
+            "url": "https://q-xx.bstatic.com/xdata/images/hotel/max500/543860609.jpg?k=f61b5929dbb18323c23a0c27c0518ee9bae25e9bf188759a3936f006915f2138&o=&s=312x"
+        },
+        {
+            "picture_id": "147443834",
+            "title": "Facilities",
+            "url": "https://q-xx.bstatic.com/xdata/images/hotel/max500/221230051.jpg?k=d30a7f53d99381f6141d581eb40822e6d86baea7da727aa3a3205a6791a52596&o=&s=312x"
+        },
+        {
+            "picture_id": "538212542",
+            "title": null,
+            "url": "https://q-xx.bstatic.com/xdata/images/hotel/max500/543861081.jpg?k=6aa779bc7d0f9798e883fe41bc46388b2a5d7447d40c12319c500fbb1965e981&o=&s=312x"
+        },
+        {
+            "picture_id": "538212529",
+            "title": null,
+            "url": "https://q-xx.bstatic.com/xdata/images/hotel/max500/543861065.jpg?k=f123d1ffd011f712c453465d8ece90e771ac3d7143185c4df87b12184c8bf91f&o=&s=312x"
+        },
+        {
+            "picture_id": "499849535",
+            "title": null,
+            "url": "https://q-xx.bstatic.com/xdata/images/hotel/max500/513284922.jpg?k=3680a1438544875045bbf652ae35af262d071a4f55702dc52606f4204bcd8bde&o=&s=312x"
+        },
+        {
+            "picture_id": "538212527",
+            "title": null,
+            "url": "https://q-xx.bstatic.com/xdata/images/hotel/max500/543861088.jpg?k=557fff9e0b69c5af67ef4ef03c069c2fae35a9c63f7c084f67331fe628e55eb3&o=&s=312x"
+        },
+        {
+            "picture_id": "147443886",
+            "title": null,
+            "url": "https://q-xx.bstatic.com/xdata/images/hotel/max500/221229524.jpg?k=71c8db96f8aaa929f275583c23d711eb2b32101ac4c6099113d2c17bff5a500e&o=&s=312x"
+        },
+        {
+            "picture_id": "147443887",
+            "title": null,
+            "url": "https://q-xx.bstatic.com/xdata/images/hotel/max500/221229530.jpg?k=e8b8dc5ed418a1e5fee713b0b047eed552a0e8280e56a1d3d4365111c44c281f&o=&s=312x"
+        }
+    ],
+    "point_of_interests": [],
+    "nearest_airports": [],
+    "train_stations": [],
+    "connected_locations": [],
+    "stadiums": []
+}

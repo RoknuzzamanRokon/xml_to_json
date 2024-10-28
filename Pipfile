@@ -8,6 +8,9 @@ requests = "*"
 xmltodict = "*"
 notebook = "*"
 python-dotenv = "*"
+pandas = "*"
+sqlalchemy = "*"
+pymysql = "*"
 
 [dev-packages]
 
