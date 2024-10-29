@@ -47,7 +47,7 @@ def get_xml_to_json_data_for_agoda(api_key, hotel_id):
             "hotel_id": hotel_data["hotel_id"],
             "name": hotel_data.get("hotel_name", "NULL"),
             "name_local": hotel_data.get("translated_name", "NULL"),
-            "hotel_formerly_name": hotel_data.get("translated_name", "NULL"),
+            "hotel_formerly_name": hotel_data.get("hotel_formerly_name", "NULL"),
             "brand_text": "NULL",
             "property_type": hotel_data.get("accommodation_type", "NULL"),
             "star_rating": hotel_data.get("star_rating", "NULL"),
