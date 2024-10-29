@@ -11,6 +11,7 @@ python-dotenv = "*"
 pandas = "*"
 sqlalchemy = "*"
 pymysql = "*"
+aiohttp = "*"
 
 [dev-packages]
 

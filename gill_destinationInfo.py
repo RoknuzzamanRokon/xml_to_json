@@ -1,10 +1,11 @@
-import requests
-import json
-import os
-import pandas as pd
 from sqlalchemy import create_engine, text
 from dotenv import load_dotenv
+import os
+import pandas as pd
+import json
+import requests
 
+# Load environment variables
 load_dotenv()
 
 # API and Database setup
@@ -21,45 +22,40 @@ engine = create_engine(DATABASE_URL)
 
 gill_table = 'gill_hotel_info_table'
 
-# Function to get distinct city names
-def only_column_info(table, column, engine):
+# Get distinct city names
+def fetch_city_names(table, column, engine):
     query = f"SELECT DISTINCT {column} FROM {table};"
-    df = pd.read_sql(query, engine)
-    return df[column].tolist()
+    return pd.read_sql(query, engine)[column].tolist()
 
-# Function to update `GiDestinationId` for each city
-def update_gi_destination_id():
-    city_name_data = only_column_info(table=gill_table, column='CityName', engine=engine)
+# Bulk update `GiDestinationId`
+def bulk_update_gi_destination_id():
+    city_names = fetch_city_names(table=gill_table, column='CityName', engine=engine)
+
+    # Prepare requests in bulk
+    data_updates = []
+    headers = {'ApiKey': f'{gill_api}', 'Content-Type': 'application/json'}
     
-    for city_name in city_name_data:
-        # Prepare payload with the city name
-        payload = json.dumps({
-            "destination": f"{city_name}"
-        })
-        headers = {
-            'ApiKey': f'{gill_api}',
-            'Content-Type': 'application/json'
-        }
-        
-        # Make API request
+    for city in city_names:
+        payload = json.dumps({"destination": city})
         response = requests.post(url, headers=headers, data=payload)
         response_data = response.json()
         
-        # Check if API call was successful and extract `giDestinationId`
+        # If successful, prepare update entry
         if response_data.get("isSuccess") and response_data.get("data"):
             gi_destination_id = response_data["data"][0]["giDestinationId"]
-            
-            # Update database with `giDestinationId`
-            update_query = text(f"""
-                UPDATE {gill_table}
-                SET GiDestinationId = :gi_destination_id
-                WHERE CityName = :city_name
-            """)
-            with engine.connect() as conn:
-                conn.execute(update_query, {'gi_destination_id': gi_destination_id, 'city_name': city_name})
-                print(f"Successfully updated GiDestinationId for city '{city_name}' to {gi_destination_id}.")
-        else:
-            print(f"Failed to retrieve GiDestinationId for city '{city_name}'. Response: {response_data}")
+            data_updates.append({'gi_destination_id': gi_destination_id, 'city_name': city})
 
-# Run the update function
-update_gi_destination_id()
+    # Execute bulk update in a single transaction for better performance
+    if data_updates:
+        with engine.connect() as conn:
+            conn.execute(
+                text(f"""
+                    UPDATE {gill_table}
+                    SET GiDestinationId = :gi_destination_id
+                    WHERE CityName = :city_name
+                """),
+                data_updates
+            )
+
+# Run the optimized update function
+bulk_update_gi_destination_id()
