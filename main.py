@@ -19,7 +19,7 @@ engine = create_engine(DATABASE_URL)
 
 
 
-load_dotenv()
+
 gtrs_api_key = os.getenv("GTS_API_KEY")
 
 
