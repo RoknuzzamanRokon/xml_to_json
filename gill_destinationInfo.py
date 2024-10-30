@@ -3,7 +3,8 @@ from dotenv import load_dotenv
 import os
 import pandas as pd
 import json
-import requests
+import aiohttp
+import asyncio
 
 # Load environment variables
 load_dotenv()
@@ -22,31 +23,38 @@ engine = create_engine(DATABASE_URL)
 
 gill_table = 'gill_hotel_info_table'
 
+# Semaphore for limiting concurrent requests
+semaphore = asyncio.Semaphore(5)  # Adjust concurrency limit as needed
+
 # Get distinct city names
 def fetch_city_names(table, column, engine):
     query = f"SELECT DISTINCT {column} FROM {table};"
     return pd.read_sql(query, engine)[column].tolist()
 
-# Bulk update `GiDestinationId`
-def bulk_update_gi_destination_id():
-    city_names = fetch_city_names(table=gill_table, column='CityName', engine=engine)
-
-    # Prepare requests in bulk
-    data_updates = []
+async def fetch_gi_destination_id(session, city, retries=3):
+    """Fetch GiDestinationId for a given city, with retries and concurrency control."""
+    payload = json.dumps({"destination": city})
     headers = {'ApiKey': f'{gill_api}', 'Content-Type': 'application/json'}
-    
-    for city in city_names:
-        payload = json.dumps({"destination": city})
-        response = requests.post(url, headers=headers, data=payload)
-        response_data = response.json()
-        
-        # If successful, prepare update entry
-        if response_data.get("isSuccess") and response_data.get("data"):
-            gi_destination_id = response_data["data"][0]["giDestinationId"]
-            data_updates.append({'gi_destination_id': gi_destination_id, 'city_name': city})
 
-    # Execute bulk update in a single transaction for better performance
-    if data_updates:
+    for attempt in range(retries):
+        try:
+            async with semaphore:  # Limit concurrent requests
+                async with session.post(url, headers=headers, data=payload) as response:
+                    if response.status == 200:
+                        response_data = await response.json()
+                        if response_data.get("isSuccess") and response_data.get("data"):
+                            return response_data["data"][0]["giDestinationId"]
+            return None  # Return None if response is unsuccessful
+        except asyncio.TimeoutError:
+            print(f"Timeout error for city '{city}', attempt {attempt + 1}/{retries}")
+            if attempt == retries - 1:
+                return None  # Return None after final attempt
+
+async def update_gi_destination_id(city, session):
+    """Fetch and update GiDestinationId for a specific city."""
+    gi_destination_id = await fetch_gi_destination_id(session, city)
+    if gi_destination_id:
+        # Update the database immediately for the current city
         with engine.connect() as conn:
             conn.execute(
                 text(f"""
@@ -54,8 +62,21 @@ def bulk_update_gi_destination_id():
                     SET GiDestinationId = :gi_destination_id
                     WHERE CityName = :city_name
                 """),
-                data_updates
+                {'gi_destination_id': gi_destination_id, 'city_name': city}
             )
+            print(f"Update successful - City: {city}, GiDestinationId: {gi_destination_id}")
+
+async def bulk_update_gi_destination_id():
+    """Bulk update GiDestinationId using asynchronous requests with retries and concurrency limit."""
+    city_names = fetch_city_names(table=gill_table, column='CityName', engine=engine)
+    
+    # Set a custom timeout
+    timeout = aiohttp.ClientTimeout(total=60)  # 60-second timeout for each request
+    async with aiohttp.ClientSession(timeout=timeout) as session:
+        # Process each city individually to update as soon as the response is received
+        tasks = [update_gi_destination_id(city, session) for city in city_names]
+        await asyncio.gather(*tasks)
 
 # Run the optimized update function
-bulk_update_gi_destination_id()
+if __name__ == "__main__":
+    asyncio.run(bulk_update_gi_destination_id())

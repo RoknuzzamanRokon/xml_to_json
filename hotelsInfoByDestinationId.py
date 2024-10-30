@@ -55,7 +55,7 @@ def insert_hotels_into_db(hotels):
     """Insert hotel information into the database while preserving specific existing values."""
     with engine.connect() as connection:
         for hotel in hotels:
-            if hotel is None:  # Skip if hotel data is null
+            if hotel is None:  
                 print("Hotel data is null, skipping...")
                 continue
             
@@ -115,7 +115,7 @@ async def main():
         results = await asyncio.gather(*tasks)
 
         for index, hotels in enumerate(results, start=1):
-            if hotels:  # Proceed only if hotels data is not empty
+            if hotels:
                 insert_hotels_into_db(hotels)
                 print(index)
 
