@@ -55,7 +55,7 @@ async def update_gi_destination_id(city, session):
     """Fetch and update GiDestinationId for a specific city."""
     gi_destination_id = await fetch_gi_destination_id(session, city)
     if gi_destination_id:
-        with engine.connect() as conn:
+        with engine.begin() as conn:
             conn.execute(
                 text(f"""
                     UPDATE {gill_table}
