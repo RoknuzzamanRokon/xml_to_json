@@ -7,6 +7,7 @@ import pandas as pd
 import time 
 import aiohttp
 import asyncio
+from datetime import datetime
 
 load_dotenv()
 
@@ -47,7 +48,8 @@ async def fetch_hotel_info_by_systemId(session, systemId):
                     hotel_info_json_data = json.dumps(hotel_info)
 
                     update_hotel_info(systemId=systemId, hotel_info_json_data=hotel_info_json_data, engine=engine)
-                    print(f"Update hotel information for systemiD: {systemId}")
+                    # print(f"Update hotel information for systemiD: {systemId}")
+
 
                     return hotel_info
                  
@@ -65,23 +67,26 @@ async def fetch_hotel_info_by_systemId(session, systemId):
 
 def update_hotel_info(systemId, hotel_info_json_data, engine):
     query = text("""
-        UPDATE gill_hotel_info_table
-        SET HotelInfo = :hotel_info
-        WHERE systemId = :systemId
+        UPDATE hotel_info_all
+        SET HotelInfo = :HotelInfo
+        WHERE SystemId = :SystemId
         """)
     
-    with engine.connect() as connection:
+    with engine.begin() as connection:
         connection.execute(query, {
-            "hotel_info": hotel_info_json_data,
-            "systemId": systemId
+            "HotelInfo": hotel_info_json_data,
+            "SystemId": systemId
         })
+        # print("Suceesessfull update.")
+
 
 
 async def main():
     start_time = time.time()
-    print(f"Start Time: {start_time}")
+    formatted_start_time = datetime.fromtimestamp(start_time).strftime("%I:%M %p")  
+    print(f"Start Time: {formatted_start_time}")
 
-    table = 'gill_hotel_info_table'
+    table = 'hotel_info_all'
     system_ids = only_column_info(table=table, column='SystemId', engine=engine)
 
     async with aiohttp.ClientSession() as session:
@@ -91,10 +96,14 @@ async def main():
                 update_hotel_info(systemId, json.dumps(hotel_info), engine)
                 print(f"Updated HotelInfo for SystemId: {systemId}")
 
-    end_time = time.time()
-    print(f"END time: {end_time}")
-    total_time = end_time -start_time
-    print(f"Total time take for updates: {total_time:.2f} seconds")
+
+    end_time = time.time()  
+    formatted_end_time = datetime.fromtimestamp(end_time).strftime("%I:%M %p")
+    print(f"END time: {formatted_end_time}")
+    total_time = end_time - start_time
+    formatted_total_time = datetime.fromtimestamp(total_time).strftime("%I:%M %p")
+    print(f"Total time taken for updates: ", formatted_total_time)
+
 
 if __name__ == "__main__":
     asyncio.run(main())

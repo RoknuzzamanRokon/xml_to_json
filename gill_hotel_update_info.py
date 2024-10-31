@@ -18,7 +18,7 @@ DATABASE_URL = f"mysql+pymysql://{db_user}:{db_pass}@{db_host}/{db_name}"
 engine = create_engine(DATABASE_URL)
 
 
-gill_table = 'gill_hotel_info_table'
+gill_table = 'hotels_info_with_gidestination_code'
 
 def insert_city_data_into_gill_table():
     try:
@@ -38,11 +38,11 @@ def insert_city_data_into_gill_table():
         df = pd.DataFrame(data, columns=columns)
 
         # for _, row in df.iterrows():
-        #     row.to_frame().T.to_sql(name='gill_hotel_info_table', con=engine, if_exists='append', index=False)
+        #     row.to_frame().T.to_sql(name='hotels_info_with_gidestination_code', con=engine, if_exists='append', index=False)
         #     print(f"Successfully inserted row: {row.to_dict()}")
 
-        df.to_sql(name='gill_hotel_info_table', con=engine, if_exists='append', index=False)
-        print("Data successfully inserted into gill_hotel_info_table.")
+        df.to_sql(name='hotels_info_with_gidestination_code', con=engine, if_exists='append', index=False)
+        print("Data successfully inserted into hotels_info_with_gidestination_code.")
 
     except Exception as e:
         print(f"An error occurred: {e}")

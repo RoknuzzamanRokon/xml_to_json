@@ -4,9 +4,11 @@ from sqlalchemy import create_engine, text
 from dotenv import load_dotenv
 import os
 import pandas as pd
-import time  # To measure execution time
+from datetime import datetime
+import time  
 import aiohttp
 import asyncio
+
 
 load_dotenv()
 
@@ -19,7 +21,7 @@ db_name = os.getenv('DB_NAME')
 DATABASE_URL = f"mysql+pymysql://{db_user}:{db_pass}@{db_host}/{db_name}"
 engine = create_engine(DATABASE_URL)
 
-gill_table = 'gill_hotel_info_table'
+gill_table = 'hotels_info_with_gidestination_code'
 gill_api = os.getenv('GILL_API_KEY')
 
 def only_column_info(table, column, engine):
@@ -53,60 +55,61 @@ async def fetch_hotels_by_destination_id(session, destination_id):
 
 def insert_hotels_into_db(hotels):
     """Insert hotel information into the database while preserving specific existing values."""
-    with engine.connect() as connection:
+    with engine.begin() as connection:
         for hotel in hotels:
             if hotel is None:  
                 print("Hotel data is null, skipping...")
                 continue
             
             # Ensure all necessary fields are present before insertion
-            required_fields = ['giDestinationId', 'name', 'systemId', 'rating', 'address1', 'address2', 'imageUrl', 'geoCode']
+            required_fields = ['giDestinationId', 'name', 'systemId', 'rating', 'city', 'address1', 'address2', 'imageUrl', 'geoCode']
             if not all(field in hotel for field in required_fields):
                 print(f"Incomplete hotel data for insertion: {hotel}")
                 continue
             
             query = text("""
-                INSERT INTO gill_hotel_info_table (
-                    GiDestinationId, HotelName, SystemId, Rating, 
-                    Address1, Address2, ImageUrl, HotelLatitude, HotelLongitude, 
-                    CityName, CountryName, CountryCode, PostalCode
+                INSERT INTO hotel_info_all (
+                    GiDestinationId, HotelName, SystemId, Rating, City, 
+                    Address1, Address2, ImageUrl, Latitude, Longitude
+                    
                 )
                 VALUES (
-                    :GiDestinationId, :HotelName, :SystemId, :Rating, 
-                    :Address1, :Address2, :ImageUrl, :HotelLatitude, :HotelLongitude, 
-                    :CityName, :CountryName, :CountryCode, :PostalCode
+                    :GiDestinationId, :HotelName, :SystemId, :Rating, :City,
+                    :Address1, :Address2, :ImageUrl, :Latitude, :Longitude
+                    
                 )
                 ON DUPLICATE KEY UPDATE
                     HotelName = VALUES(HotelName),
                     SystemId = VALUES(SystemId),
                     Rating = VALUES(Rating),
+                    City = VALUES(City),
                     Address1 = VALUES(Address1),
                     Address2 = VALUES(Address2),
                     ImageUrl = VALUES(ImageUrl),
-                    HotelLatitude = VALUES(HotelLatitude),
-                    HotelLongitude = VALUES(HotelLongitude)
-                    -- Existing values will remain unchanged for CityName, CountryName, CountryCode, PostalCode, GiDestinationId
+                    Latitude = VALUES(Latitude),
+                    Longitude = VALUES(Longitude)
             """)
+
+
             connection.execute(query, {
                 'GiDestinationId': hotel["giDestinationId"],
                 'HotelName': hotel["name"],
                 'SystemId': hotel["systemId"],
                 'Rating': hotel["rating"],
+                'City': hotel["city"],
                 'Address1': hotel["address1"],
                 'Address2': hotel["address2"],
                 'ImageUrl': hotel["imageUrl"],
-                'HotelLatitude': hotel["geoCode"]["lat"],
-                'HotelLongitude': hotel["geoCode"]["lon"],
-                'CityName': hotel["city"],          
-                'CountryName': hotel.get("countryName", ""),  
-                'CountryCode': hotel.get("countryCode", ""),  
-                'PostalCode': hotel.get("postalCode", ""),    
+                'Latitude': hotel["geoCode"]["lat"],
+                'Longitude': hotel["geoCode"]["lon"]
             })
+            print(f"Update successful - GiDestinationId: {hotel['giDestinationId']}")
 
 async def main():
     """Main function to coordinate the fetching and storing of hotel data."""
-    start_time = time.time()  
-    print(f"Start Time: {start_time}")
+    start_time = time.time()
+    formatted_start_time = datetime.fromtimestamp(start_time).strftime("%I:%M %p")  
+    print(f"Start Time: {formatted_start_time}")
 
     destination_ids = only_column_info(gill_table, 'GiDestinationId', engine)
     
@@ -119,10 +122,13 @@ async def main():
                 insert_hotels_into_db(hotels)
                 print(index)
 
+
     end_time = time.time()  
-    print(f"END time: {end_time}")
+    formatted_end_time = datetime.fromtimestamp(end_time).strftime("%I:%M %p")
+    print(f"END time: {formatted_end_time}")
     total_time = end_time - start_time
-    print(f"Total time taken for updates: {total_time:.2f} seconds")
+    formatted_total_time = datetime.fromtimestamp(total_time).strftime("%I:%M %p")
+    print(f"Total time taken for updates: ", formatted_total_time)
 
 if __name__ == "__main__":
     asyncio.run(main())

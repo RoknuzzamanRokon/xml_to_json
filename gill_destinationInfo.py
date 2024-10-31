@@ -5,6 +5,10 @@ import pandas as pd
 import json
 import aiohttp
 import asyncio
+import pandas as pd
+from datetime import datetime
+import time
+
 
 # Load environment variables
 load_dotenv()
@@ -21,7 +25,7 @@ db_name = os.getenv('DB_NAME')
 DATABASE_URL = f"mysql+pymysql://{db_user}:{db_pass}@{db_host}/{db_name}"
 engine = create_engine(DATABASE_URL)
 
-gill_table = 'gill_hotel_info_table'
+gill_table = 'hotels_info_with_gidestination_code'
 
 
 semaphore = asyncio.Semaphore(5)  
@@ -68,12 +72,24 @@ async def update_gi_destination_id(city, session):
 
 async def bulk_update_gi_destination_id():
     """Bulk update GiDestinationId using asynchronous requests with retries and concurrency limit."""
+    start_time = time.time()
+    formatted_start_time = datetime.fromtimestamp(start_time).strftime("%I:%M %p")  
+    print(f"Start Time: {formatted_start_time}")
+
     city_names = fetch_city_names(table=gill_table, column='CityName', engine=engine)
     
     timeout = aiohttp.ClientTimeout(total=60)  
     async with aiohttp.ClientSession(timeout=timeout) as session:
         tasks = [update_gi_destination_id(city, session) for city in city_names]
         await asyncio.gather(*tasks)
+
+    
+    end_time = time.time()  
+    formatted_end_time = datetime.fromtimestamp(end_time).strftime("%I:%M %p")
+    print(f"END time: {formatted_end_time}")
+    total_time = end_time - start_time
+    formatted_total_time = datetime.fromtimestamp(total_time).strftime("%I:%M %p")
+    print(f"Total time taken for updates: ", formatted_total_time)
 
 
 if __name__ == "__main__":
