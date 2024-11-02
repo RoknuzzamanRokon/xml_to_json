@@ -1,13 +1,12 @@
-import requests
-import json
-from sqlalchemy import create_engine, text
-from dotenv import load_dotenv
 import os
+import time
+import json
+import requests
 import pandas as pd
-import time 
-import aiohttp
-import asyncio
 from datetime import datetime
+from dotenv import load_dotenv
+from sqlalchemy import create_engine, text
+
 
 load_dotenv()
 
@@ -19,69 +18,80 @@ db_name = os.getenv('DB_NAME')
 DATABASE_URL = f"mysql+pymysql://{db_user}:{db_pass}@{db_host}/{db_name}"
 engine = create_engine(DATABASE_URL)
 
-gill_table = 'gill_hotel_info_table'
+table = 'hotel_info_all'
 gill_api = os.getenv('GILL_API_KEY')
 
 
 def only_column_info(table, column, engine):
     """Fetch distinct values from a specified column in a given table."""
-    query = f"SELECT DISTINCT {column} FROM {table};"
-    df = pd.read_sql(query, engine)
-    return df[column].tolist()
+    try:
+        query = f"SELECT {column} FROM {table} WHERE StatusUpdateHotelInfo != 'Done Json' OR StatusUpdateHotelInfo IS NULL;"
+        df = pd.read_sql(query, engine)
+        return df[column].tolist()
+    except Exception as e:
+        print(f"Error fetching column info: {e}")
+        return []
 
 
-async def fetch_hotel_info_by_systemId(session, systemId):
-    """Fetch hotel information by system ID."""
+def fetch_hotel_info_by_systemId(systemId):
+    """Fetch hotel information by system ID using synchronous requests."""
     url = "https://api.giinfotech.ae/api/Hotel/HotelInfo"
     payload = json.dumps({"hotelCode": str(systemId)})
     headers = {
         'ApiKey': gill_api,
         'Content-Type': 'application/json'
     }
-    
+
     try:
-        async with session.post(url, headers=headers, data=payload) as response:
-            if response.status == 200:
-                response_data = await response.json()
-                if response_data["isSuccess"]:
-                    hotel_info = response_data["hotelInformation"]
-                    hotel_info_json_data = json.dumps(hotel_info)
-
-                    update_hotel_info(systemId=systemId, hotel_info_json_data=hotel_info_json_data, engine=engine)
-                    # print(f"Update hotel information for systemiD: {systemId}")
-
-
-                    return hotel_info
-                 
-                else:
-                    print(f"No hotel information found for systemID: {systemId}")
+        response = requests.post(url, headers=headers, data=payload)
+        if response.status_code == 200:
+            response_data = response.json()
+            if response_data["isSuccess"]:
+                hotel_info = response_data["hotelInformation"]
+                return hotel_info
             else:
-                print(f"Failed to fetch data for systemID {systemId}: {response.status}")
-
+                print(f"No hotel information found for systemID: {systemId}")
+        else:
+            print(f"Failed to fetch data for systemID {systemId}: {response.status_code}")
     except Exception as e:
         print(f"Error fetching data for system ID {systemId}: {e}")
     
     return []
 
 
+def update_hotel_info(systemId, hotel_info_json_data, status_update, engine):
+    """Update hotel information in the database."""
 
-def update_hotel_info(systemId, hotel_info_json_data, engine):
+    if isinstance(hotel_info_json_data, str):
+        hotel_info_json_data = json.loads(hotel_info_json_data)
+    
+    country_code = hotel_info_json_data.get("address", {}).get("countryCode")
+    zip_code = hotel_info_json_data.get("address", {}).get("zipCode")
+    country_name = hotel_info_json_data.get("address", {}).get("countryName")
+    
     query = text("""
         UPDATE hotel_info_all
-        SET HotelInfo = :HotelInfo
+        SET HotelInfo = :HotelInfo,
+            StatusUpdateHotelInfo = :StatusUpdateHotelInfo,
+            CountryCode = :CountryCode,
+            ZipCode = :ZipCode,
+            CountryName = :CountryName
         WHERE SystemId = :SystemId
-        """)
+    """)
     
     with engine.begin() as connection:
         connection.execute(query, {
-            "HotelInfo": hotel_info_json_data,
+            "HotelInfo": json.dumps(hotel_info_json_data),
+            "StatusUpdateHotelInfo": status_update,
+            "CountryCode": country_code,
+            "ZipCode": zip_code,
+            "CountryName": country_name,
             "SystemId": systemId
         })
-        # print("Suceesessfull update.")
+        print(f"Updated SystemId: {systemId} with Status: {status_update}.")
 
 
-
-async def main():
+def main():
     start_time = time.time()
     formatted_start_time = datetime.fromtimestamp(start_time).strftime("%I:%M %p")  
     print(f"Start Time: {formatted_start_time}")
@@ -89,21 +99,34 @@ async def main():
     table = 'hotel_info_all'
     system_ids = only_column_info(table=table, column='SystemId', engine=engine)
 
-    async with aiohttp.ClientSession() as session:
-        for systemId in system_ids:
-            hotel_info = await fetch_hotel_info_by_systemId(session=session, systemId=systemId)
-            if hotel_info:
-                update_hotel_info(systemId, json.dumps(hotel_info), engine)
-                print(f"Updated HotelInfo for SystemId: {systemId}")
-
+    for index, systemId in enumerate(system_ids, start=1):
+        hotel_info = fetch_hotel_info_by_systemId(systemId)
+        if hotel_info:
+            status_update = "Done Json"
+            update_hotel_info(systemId, json.dumps(hotel_info), status_update, engine)
+        else:
+            status_update = "Not found json"
+            update_hotel_info(systemId, json.dumps({}), status_update, engine)
+            print(f"Update system Id Done: No:{index} ----- {systemId}")
 
     end_time = time.time()  
     formatted_end_time = datetime.fromtimestamp(end_time).strftime("%I:%M %p")
     print(f"END time: {formatted_end_time}")
+
     total_time = end_time - start_time
-    formatted_total_time = datetime.fromtimestamp(total_time).strftime("%I:%M %p")
-    print(f"Total time taken for updates: ", formatted_total_time)
+
+    # print(f"Total time taken for updates: {total_time:.2f} seconds")
+    # Convert total time to hours, minutes, and seconds
+
+    hours = int(total_time // 3600)
+    minutes = int((total_time % 3600) // 60)
+    seconds = int(total_time % 60)
+
+    print(f"Total time taken for updates: {hours} hours, {minutes} minutes, {seconds} seconds")
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()
+
+
+
