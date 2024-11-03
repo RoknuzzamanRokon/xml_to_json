@@ -104,10 +104,11 @@ def main():
         if hotel_info:
             status_update = "Done Json"
             update_hotel_info(systemId, json.dumps(hotel_info), status_update, engine)
+            print(f"Update system Id Done: No:{index} ----- {systemId}")
         else:
             status_update = "Not found json"
             update_hotel_info(systemId, json.dumps({}), status_update, engine)
-            print(f"Update system Id Done: No:{index} ----- {systemId}")
+            print(f"Update system Not found json: No:{index} ---------------------------------------------------------------- {systemId}")
 
     end_time = time.time()  
     formatted_end_time = datetime.fromtimestamp(end_time).strftime("%I:%M %p")
