@@ -1,0 +1,179 @@
+{
+    "hotel_id": 930,
+    "name": "Bienville House",
+    "name_local": "Bienville House",
+    "hotel_formerly_name": "NULL",
+    "brand_text": "NULL",
+    "property_type": "NULL",
+    "star_rating": 3,
+    "chain": "NULL",
+    "brand": "NULL",
+    "logo": "NULL",
+    "primary_photo": "https://static.giinfotech.ae/medianew/thumbnail/9042/1091647.jpg",
+    "review_rating": {
+        "source": "TripAdvisor",
+        "number_of_reviews": "NULL",
+        "rating_average": 4,
+        "popularity_score": "NULL"
+    },
+    "policies": {
+        "checkin": {
+            "begin_time": "NULL",
+            "end_time": "NULL",
+            "instructions": "NULL",
+            "min_age": "NULL"
+        },
+        "checkout": {
+            "time": "NULL"
+        },
+        "fees": {
+            "optional": "NULL"
+        },
+        "know_before_you_go": "NULL",
+        "pets": [
+            "Pets not allowed"
+        ],
+        "remark": "NULL",
+        "child_and_extra_bed_policy": {
+            "infant_age": "NULL",
+            "children_age_from": "NULL",
+            "children_age_to": "NULL",
+            "children_stay_free": "NULL",
+            "min_guest_age": "NULL"
+        },
+        "nationality_restrictions": "NULL"
+    },
+    "address": {
+        "latitude": 29.953945,
+        "longitude": -90.065395,
+        "address_line_1": "320 Decatur Street",
+        "address_line_2": "New Orleans , Louisiana 70130",
+        "city": "New Orleans",
+        "state": null,
+        "country": "United States",
+        "country_code": "US",
+        "postal_code": "70130",
+        "full_address": "320 Decatur Street, New Orleans , Louisiana 70130",
+        "google_map_site_link": "NULL",
+        "local_lang": {
+            "latitude": 29.953945,
+            "longitude": -90.065395,
+            "address_line_1": "NULL",
+            "address_line_2": "NULL",
+            "city": "NULL",
+            "state": "NULL",
+            "country": "NULL",
+            "country_code": "NULL",
+            "postal_code": "NULL",
+            "full_address": "NULL",
+            "google_map_site_link": "NULL"
+        },
+        "mapping": {
+            "continent_id": "NULL",
+            "country_id": "NULL",
+            "province_id": "NULL",
+            "state_id": "NULL",
+            "city_id": "NULL",
+            "area_id": "NULL"
+        }
+    },
+    "contacts": {
+        "phone_numbers": [
+            "+15045292345"
+        ],
+        "fax": "+15045256079",
+        "email_address": "NULL",
+        "website": "http://www.bienvillehouse.com/"
+    },
+    "descriptions": [
+        {
+            "title": "NULL",
+            "text": "NULL"
+        }
+    ],
+    "room_type": [],
+    "spoken_languages": [],
+    "amenities": [
+        "Bathroom",
+        "Shower",
+        "Bathtub",
+        "Hairdryer",
+        "Direct dial telephone",
+        "Satellite/cable TV",
+        "Radio",
+        "Internet access",
+        "Fridge",
+        "King-size Bed",
+        "Air conditioning (centrally regulated)",
+        "Central Heating",
+        "Safe",
+        "TV",
+        "Double Bed",
+        "Air conditioning (individually regulated)",
+        "Heating (individually regulated)",
+        "Tea/coffee maker"
+    ],
+    "facilities": [
+        "Air conditioning",
+        "24-hour reception",
+        "Hotel Safe",
+        "Currency Exchange",
+        "Lifts",
+        "Cafe",
+        "Bar(s)",
+        "Restaurant(s)",
+        "Restaurant(s) with non-smoking area",
+        "Conference Room",
+        "Internet access",
+        "WLAN access",
+        "Room Service",
+        "Laundry Service",
+        "Car Park"
+    ],
+    "hotel_photo": [
+        "https://static.giinfotech.ae/medianew/full/9042/1091647.jpg",
+        "https://static.giinfotech.ae/medianew/full/9042/1091650.jpg",
+        "https://static.giinfotech.ae/medianew/full/9042/1091653.jpg",
+        "https://static.giinfotech.ae/medianew/full/9042/8267791.jpg",
+        "https://static.giinfotech.ae/medianew/full/9042/8267796.jpg",
+        "https://static.giinfotech.ae/medianew/full/9042/8267776.jpg",
+        "https://static.giinfotech.ae/medianew/full/9042/8267800.jpg",
+        "https://static.giinfotech.ae/medianew/full/9042/8267786.jpg",
+        "https://static.giinfotech.ae/medianew/full/9042/8267781.jpg",
+        "https://static.giinfotech.ae/medianew/full/9042/8267773.jpg",
+        "https://static.giinfotech.ae/medianew/full/9042/8267768.jpg",
+        "https://static.giinfotech.ae/medianew/full/9042/8267763.jpg",
+        "https://static.giinfotech.ae/medianew/full/9042/8267805.jpg",
+        "https://static.giinfotech.ae/medianew/full/9042/8267900.jpg",
+        "https://static.giinfotech.ae/medianew/full/9042/8267905.jpg",
+        "https://static.giinfotech.ae/medianew/full/9042/8267910.jpg",
+        "https://static.giinfotech.ae/medianew/full/9042/8267915.jpg",
+        "https://static.giinfotech.ae/medianew/full/9042/8267885.jpg",
+        "https://static.giinfotech.ae/medianew/full/9042/8267890.jpg",
+        "https://static.giinfotech.ae/medianew/full/9042/8267895.jpg",
+        "https://static.giinfotech.ae/medianew/full/9042/8267810.jpg",
+        "https://static.giinfotech.ae/medianew/full/9042/8267815.jpg",
+        "https://static.giinfotech.ae/medianew/full/9042/8267820.jpg",
+        "https://static.giinfotech.ae/medianew/full/9042/8267825.jpg",
+        "https://static.giinfotech.ae/medianew/full/9042/8267830.jpg",
+        "https://static.giinfotech.ae/medianew/full/9042/8267835.jpg",
+        "https://static.giinfotech.ae/medianew/full/9042/8267840.jpg",
+        "https://static.giinfotech.ae/medianew/full/9042/8267845.jpg",
+        "https://static.giinfotech.ae/medianew/full/9042/8267850.jpg",
+        "https://static.giinfotech.ae/medianew/full/9042/8267855.jpg",
+        "https://static.giinfotech.ae/medianew/full/9042/8267860.jpg",
+        "https://static.giinfotech.ae/medianew/full/9042/8267865.jpg",
+        "https://static.giinfotech.ae/medianew/full/9042/8267870.jpg",
+        "https://static.giinfotech.ae/medianew/full/9042/8267875.jpg",
+        "https://static.giinfotech.ae/medianew/full/9042/8267880.jpg",
+        "https://static.giinfotech.ae/medianew/full/9042/8267920.jpg",
+        "https://static.giinfotech.ae/medianew/full/9042/8267925.jpg",
+        "https://static.giinfotech.ae/medianew/full/9042/8267930.jpg",
+        "https://static.giinfotech.ae/medianew/full/9042/8267935.jpg"
+    ],
+    "point_of_interests": [],
+    "nearest_airports": [],
+    "train_stations": [],
+    "connected_locations": [],
+    "stadiums": []
+}
