@@ -63,7 +63,6 @@ def insert_hotels_into_db(hotels, status_update):
     """Insert hotel information into the database while preserving specific existing values."""
     with engine.begin() as connection:
         if not hotels:
-            # Handle the case where there are no hotel details to insert
             query = text("""
                 INSERT INTO hotel_info_all (
                     GiDestinationId, StatusUpdate
@@ -75,7 +74,6 @@ def insert_hotels_into_db(hotels, status_update):
                     StatusUpdate = VALUES(StatusUpdate)
             """)
             try:
-                # Use a placeholder destination ID for "Cannot find" status
                 connection.execute(query, {
                     'GiDestinationId': hotels.get("giDestinationId", ""),
                     'StatusUpdate': status_update
@@ -83,21 +81,18 @@ def insert_hotels_into_db(hotels, status_update):
                 print(f"Update successful for missing data - GiDestinationId: {hotels.get('giDestinationId')}")
             except Exception as e:
                 print(f"Error updating hotel data for missing info: {e}")
-            return  # End function for "Cannot find" case
+            return  
 
-        # Process hotels with full data if available
         for hotel in hotels:
             if hotel is None:  
                 print("Hotel data is null, skipping...")
                 continue
 
-            # Ensure all necessary fields are present before insertion
             required_fields = ['giDestinationId', 'name', 'systemId', 'rating', 'address1', 'address2', 'imageUrl', 'geoCode']
             if not all(field in hotel for field in required_fields):
                 print(f"Incomplete hotel data for insertion: {hotel}")
                 continue
             
-            # Prepare and execute the insertion query
             query = text("""
                 INSERT INTO hotel_info_all (
                     GiDestinationId, HotelName, SystemId, Rating, City, 
