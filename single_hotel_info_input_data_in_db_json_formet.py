@@ -41,12 +41,12 @@ def only_select_column_info(table, column, country_code, engine):
         
 
         unique_values = df[column].unique()
-        # print(len(uniqe_value))
+        print(len(unique_values))
         
         # len_list = len(list)
         # print(len_list)
 
-        all_values = df[column].tolist()
+        # all_values = df[column].tolist()
         
         # Count unique values
         unique_values = df[column].unique()
