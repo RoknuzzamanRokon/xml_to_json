@@ -62,7 +62,7 @@ def get_xml_to_json_data_for_agoda(api_key, hotel_id):
                 "popularity_score": hotel_data.get("popularity_score", "NULL"),
             },
             "policies": {
-                "checkin": {
+                "check_in": {
                     "begin_time": "NULL",
                     "end_time": "NULL",
                     "instructions": "NULL",
