@@ -133,6 +133,8 @@ def main():
     formatted_start_time = datetime.fromtimestamp(start_time).strftime("%I:%M %p")  
     print(f"Start Time: {formatted_start_time}")
 
+    system_ids = only_column_info(table='hotel_info_all', column='SystemId', engine=engine)
+
     system_ids = only_select_column_info('hotel_info_all', 'SystemId', 'AE', engine)
 
     for index, systemId in enumerate(system_ids, start=1):
