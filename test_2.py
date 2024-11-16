@@ -1,17 +1,14 @@
-from sqlalchemy import create_engine, text
-from dotenv import load_dotenv
 import os
-import pandas as pd
+import time
 import json
-import aiohttp
-import asyncio
+import requests
+import pandas as pd
+from datetime import datetime
+from dotenv import load_dotenv
+from sqlalchemy import create_engine, text
 
-# Load environment variables
+
 load_dotenv()
-
-# API and Database setup
-gill_api = os.getenv('GILL_API_KEY')
-url = "https://api.giinfotech.ae/api/Hotel/DestinationInfo"
 
 db_host = os.getenv('DB_HOST')
 db_user = os.getenv('DB_USER')
@@ -21,62 +18,140 @@ db_name = os.getenv('DB_NAME')
 DATABASE_URL = f"mysql+pymysql://{db_user}:{db_pass}@{db_host}/{db_name}"
 engine = create_engine(DATABASE_URL)
 
-gill_table = 'gill_hotel_info_table'
+table = 'hotel_info_all'
+gill_api = os.getenv('GILL_API_KEY')
 
-# Get distinct city names
-def fetch_city_names(table, column, engine):
-    query = f"SELECT DISTINCT {column} FROM {table};"
-    return pd.read_sql(query, engine)[column].tolist()
 
-async def fetch_gi_destination_id(session, city):
-    """Fetch GiDestinationId for a given city."""
-    payload = json.dumps({"destination": city})
-    headers = {'ApiKey': f'{gill_api}', 'Content-Type': 'application/json'}
+def only_column_info(table, column, engine):
+    """Fetch the last 10 distinct values from a specified column in a given table."""
+    try:
+        query = f"""
+                SELECT {column} 
+                FROM {table} 
+                WHERE StatusUpdateHotelInfo != 'Done Json' 
+                AND StatusUpdateHotelInfo != 'Not found json' 
+                OR StatusUpdateHotelInfo IS NULL 
+                ORDER BY {column} DESC
+                LIMIT 50000;
+            """
+        # Execute the query and load the results into a DataFrame
+        df = pd.read_sql(query, engine)
+        
+        # Return the last 10 values from the column, as they are now ordered descending
+        return df[column].tolist()
+
+    except Exception as e:
+        print(f"Error fetching column info: {e}")
+        return []
+
+
+def fetch_hotel_info_by_systemId(systemId):
+    """Fetch hotel information by system ID using synchronous requests."""
+    url = "https://api.giinfotech.ae/api/Hotel/HotelInfo"
+    payload = json.dumps({"hotelCode": str(systemId)})
+    headers = {
+        'ApiKey': gill_api,
+        'Content-Type': 'application/json'
+    }
+
+    try:
+        response = requests.post(url, headers=headers, data=payload)
+        if response.status_code == 200:
+            response_data = response.json()
+            if response_data["isSuccess"]:
+                hotel_info = response_data["hotelInformation"]
+                if hotel_info:  
+                    return hotel_info
+                else:
+                    print(f"No hotel information found for systemID: {systemId}")
+            else:
+                print(f"API response not successful for systemID: {systemId}")
+        else:
+            print(f"Failed to fetch data for systemID {systemId}: {response.status_code}")
+    except Exception as e:
+        print(f"Error fetching data for system ID {systemId}: {e}")
     
-    async with session.post(url, headers=headers, data=payload) as response:
-        if response.status == 200:
-            response_data = await response.json()
-            if response_data.get("isSuccess") and response_data.get("data"):
-                return response_data["data"][0]["giDestinationId"]
-    return None
+    return None 
 
-async def bulk_update_gi_destination_id():
-    """Bulk update GiDestinationId using asynchronous requests."""
-    city_names = fetch_city_names(table=gill_table, column='CityName', engine=engine)
 
-    async with aiohttp.ClientSession() as session:
-        tasks = [fetch_gi_destination_id(session, city) for city in city_names]
-        results = await asyncio.gather(*tasks)
-
-    data_updates = [{'gi_destination_id': gi_id, 'city_name': city} 
-                    for gi_id, city in zip(results, city_names) if gi_id is not None]
-
-    # Execute bulk update in a single transaction for better performance
-    if data_updates:
-        with engine.connect() as conn:
-            conn.execute(
-                text(f"""
-                    UPDATE {gill_table}
-                    SET GiDestinationId = :gi_destination_id
-                    WHERE CityName = :city_name
-                """),
-                data_updates
-            )
-
-            # Fetch and display the updated data for the given cities
-            for city in city_names:
-                fetch_and_display_updated_data(conn, city)
-
-def fetch_and_display_updated_data(conn, city):
-    """Fetch and print the updated GiDestinationId for a specific city."""
-    query = text(f"SELECT GiDestinationId, CityName FROM {gill_table} WHERE CityName = :city_name;")
-    result = conn.execute(query, {'city_name': city}).fetchone()
+def update_hotel_info(systemId, hotel_info_json_data, status_update, engine, max_retries=5, base_delay=1):
+    """Update hotel information in the database with retry logic using exponential backoff."""
     
-    if result:
-        print(f"Updated Data - City: {result['CityName']}, GiDestinationId: {result['GiDestinationId']}")
-    else:
-        print(f"No data found for City: {city}")
+    if isinstance(hotel_info_json_data, str):
+        hotel_info_json_data = json.loads(hotel_info_json_data)
+    
+    country_code = hotel_info_json_data.get("address", {}).get("countryCode")
+    zip_code = hotel_info_json_data.get("address", {}).get("zipCode")
+    country_name = hotel_info_json_data.get("address", {}).get("countryName")
+    
+    query = text("""
+        UPDATE hotel_info_all
+        SET HotelInfo = :HotelInfo,
+            StatusUpdateHotelInfo = :StatusUpdateHotelInfo,
+            CountryCode = :CountryCode,
+            ZipCode = :ZipCode,
+            CountryName = :CountryName
+        WHERE SystemId = :SystemId
+    """)
+    
+    attempt = 0
+    while attempt < max_retries:
+        try:
+            with engine.begin() as connection:
+                connection.execute(query, {
+                    "HotelInfo": json.dumps(hotel_info_json_data),
+                    "StatusUpdateHotelInfo": status_update,
+                    "CountryCode": country_code,
+                    "ZipCode": zip_code,
+                    "CountryName": country_name,
+                    "SystemId": systemId
+                })
+                print(f"Updated SystemId: {systemId} with Status: {status_update}.")
+                return  
+        except Exception as e:
+            attempt += 1
+            if attempt < max_retries:
+                delay = base_delay * (2 ** (attempt - 1))  # Exponential backoff
+                print(f"Attempt {attempt} failed: {e}. Retrying in {delay} seconds...")
+                time.sleep(delay)
+            else:
+                print(f"All {max_retries} attempts failed. Error: {e}")
+                return
 
-# Run the optimized update function
+
+def main():
+    start_time = time.time()
+    formatted_start_time = datetime.fromtimestamp(start_time).strftime("%I:%M %p")  
+    print(f"Start Time: {formatted_start_time}")
+
+    system_ids = only_column_info(table='hotel_info_all', column='SystemId', engine=engine)
+    # print(system_ids)
+
+    for index, systemId in enumerate(system_ids, start=1):
+        print(f"Processing SystemId: {systemId}")
+        hotel_info = fetch_hotel_info_by_systemId(systemId)
+        # print(hotel_info)
+
+        if hotel_info:
+            status_update = "Done Json"
+            update_hotel_info(systemId, json.dumps(hotel_info), status_update, engine, max_retries=5, base_delay=1)
+            print(f"Update system Id Done: No:{index} ----- {systemId}")
+        else:
+            status_update = "Not found json"
+            update_hotel_info(systemId, json.dumps({}), status_update, engine)
+            print(f"Update system Not found json: No:{index} ----- {systemId}")
+
+    end_time = time.time()  
+    formatted_end_time = datetime.fromtimestamp(end_time).strftime("%I:%M %p")
+    print(f"END time: {formatted_end_time}")
+
+    total_time = end_time - start_time
+    hours = int(total_time // 3600)
+    minutes = int((total_time % 3600) // 60)
+    seconds = int(total_time % 60)
+
+    print(f"Total time taken for updates: {hours} hours, {minutes} minutes, {seconds} seconds")
+
+
 if __name__ == "__main__":
-    asyncio.run(bulk_update_gi_destination_id())
+    main()

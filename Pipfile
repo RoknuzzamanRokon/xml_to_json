@@ -12,6 +12,8 @@ pandas = "*"
 sqlalchemy = "*"
 pymysql = "*"
 aiohttp = "*"
+aiomysql = "*"
+mysql-connector-python = "*"
 
 [dev-packages]
 
